@@ -1,10 +1,13 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Livres {
     private String titre;
     private String auteur;
     private int anneePublication;
-    private int isbn;
+    private String isbn;
 
-    public Livres(String titre, String auteur, int anneePublication, int isbn) {
+    public Livres(String titre, String auteur, int anneePublication, String isbn) {
         this.titre = titre;
         this.auteur = auteur;
         this.anneePublication = anneePublication;
@@ -35,11 +38,37 @@ public class Livres {
         this.anneePublication = anneePublication;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    @Override
+    public String toString() {
+        return "Livres{" +
+                "titre='" + titre + '\'' +
+                ", auteur='" + auteur + '\'' +
+                ", anneePublication=" + anneePublication +
+                ", isbn='" + isbn + '\'' +
+                '}';
+    }
+
+    public static ArrayList ajout(ArrayList<Livres> listLivre){
+        Scanner input = new Scanner(System.in);
+        String titre, auteur, isbn;
+        int anneePublication;
+        System.out.println("veuillez entrer le titre du livre");
+        titre = input.nextLine();
+        System.out.println("Veuillez entrer l'auteur");
+        auteur = input.nextLine();
+        System.out.println("veuillez entrer l'année de publication");
+        anneePublication = Integer.parseInt(input.nextLine());
+        System.out.println("veuillez entrer l'ISBN");
+        isbn = input.nextLine();
+        listLivre.add(new Livres(titre,auteur,anneePublication,isbn));
+        return listLivre;
     }
 }
