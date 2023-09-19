@@ -77,4 +77,12 @@ public class Livres {
         listLivre.add(new Livres(titre,auteur,anneePublication,isbn));
         return listLivre;
     }
+
+    public static ArrayList suppression(ArrayList<Livres> listLivre){
+        int choix;
+        System.out.println("Quelle livre souhaitez vous supprimer?");
+        choix = Integer.parseInt(Affichable.affichageLivres(listLivre))-1;
+        listLivre.remove(choix);
+        return listLivre;
+    }
 }

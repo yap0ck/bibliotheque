@@ -23,7 +23,7 @@ public class Main {
                 switch (Affichable.menuAdmin()){
                     case "1" -> listLivres = Livres.ajout(listLivres);
                     case "2" -> Affichable.information(listLivres);
-                    //case "3" -> suppression();
+                    case "3" -> listLivres = Livres.suppression(listLivres);
                     //case "4" -> modification();
                     //case "5" -> emprunt();
                     //case "6" -> retour();
