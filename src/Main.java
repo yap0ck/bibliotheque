@@ -24,7 +24,7 @@ public class Main {
                     case "1" -> listLivres = Livres.ajout(listLivres);
                     case "2" -> Affichable.information(listLivres);
                     case "3" -> listLivres = Livres.suppression(listLivres);
-                    //case "4" -> modification();
+                    case "4" -> listLivres= Livres.modification(listLivres);
                     //case "5" -> emprunt();
                     //case "6" -> retour();
                     //case "7" -> affichageLivre();

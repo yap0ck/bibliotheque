@@ -78,11 +78,79 @@ public class Livres {
         return listLivre;
     }
 
+    /**
+     * Cette fonction permet à l'utilisateur de choisir un livre à supprimer de la liste des livres.
+     *
+     * @param listLivre La liste des livres à partir de laquelle supprimer un livre.
+     * @return La liste des livres mise à jour après la suppression.
+     */
     public static ArrayList suppression(ArrayList<Livres> listLivre){
         int choix;
         System.out.println("Quelle livre souhaitez vous supprimer?");
         choix = Integer.parseInt(Affichable.affichageLivres(listLivre))-1;
         listLivre.remove(choix);
+        return listLivre;
+    }
+
+    /**
+     * Cette fonction permet à l'utilisateur de modifier les informations d'un livre existant dans la liste des livres.
+     *
+     * @param listLivre La liste des livres à partir de laquelle effectuer les modifications.
+     * @return La liste des livres mise à jour après les modifications.
+     */
+    public static ArrayList modification(ArrayList<Livres> listLivre){
+        int choixLivre;
+        Scanner input = new Scanner(System.in);
+        String choix, entree;
+        int entreeAnnee;
+        boolean encore = false;
+        Livres livre;
+        System.out.println("Quelle livre souhaitez vous modifier");
+        choixLivre = Integer.parseInt(Affichable.affichageLivres(listLivre))-1;
+        do {
+            System.out.println("Quelle information souhaitez vous modifier?");
+            System.out.println("1) Titre\n2) Auteur\n3) Annee de publication\n4) ISBN");
+            choix = input.nextLine();
+            switch (choix){
+                case "1" -> {
+                    System.out.println("Veuillez entrer le nouveau titre");
+                    entree = input.nextLine();
+                    livre = listLivre.get(choixLivre);
+                    livre.setTitre(entree);
+                    listLivre.remove(choixLivre);
+                    listLivre.add(livre);
+                }
+                case "2" -> {
+                    System.out.println("Veuillez entrer le nouvel auteur");
+                    entree = input.nextLine();
+                    livre = listLivre.get(choixLivre);
+                    livre.setAuteur(entree);
+                    listLivre.remove(choixLivre);
+                    listLivre.add(livre);
+                }
+                case "3" -> {
+                    System.out.println("Veuillez entrer la nouvelle année de parution");
+                    entreeAnnee = Integer.parseInt(input.nextLine());
+                    livre = listLivre.get(choixLivre);
+                    livre.setAnneePublication(entreeAnnee);
+                    listLivre.remove(choixLivre);
+                    listLivre.add(livre);
+                }
+                case "4" -> {
+                    System.out.println("Veuillez entrer le nouvel ISBN");
+                    entree = input.nextLine();
+                    livre = listLivre.get(choixLivre);
+                    livre.setIsbn(entree);
+                    listLivre.remove(choixLivre);
+                    listLivre.add(livre);
+                }
+                default -> throw new YannException();
+            }
+            System.out.println("Souhaitez vous faire une autre modification sur ce livre? (o)ui/(n)on)");
+            entree = input.nextLine();
+            if (entree.equals("o")) encore = true;
+            else encore = false;
+        } while (encore);
         return listLivre;
     }
 }
