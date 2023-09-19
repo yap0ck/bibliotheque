@@ -10,6 +10,17 @@ public class User {
         this.motdepasse = motdepasse;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", login='" + login + '\'' +
+                ", motdepasse='" + motdepasse + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
+
     public String getNom() {
         return nom;
     }
