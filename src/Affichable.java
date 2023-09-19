@@ -76,4 +76,40 @@ public interface Affichable {
         choix = input.nextLine();
         return choix;
     }
+
+    /**
+     * Cette fonction affiche la liste des livres et permet à l'utilisateur de sélectionner un livre ou de retourner en arrière.
+     * Elle renvoie le choix de l'utilisateur sous forme de chaîne de caractères.
+     *
+     * @param list La liste des livres à afficher.
+     * @return Le choix de l'utilisateur sous forme de chaîne de caractères.
+     */
+    static String affichageLivres(ArrayList<Livres> list){
+        int index = 0;
+        String choix;
+        Scanner input = new Scanner(System.in);
+        for (Livres livres : list) {
+            index ++;
+            System.out.print(index + ") ");
+            System.out.println(livres.toString());
+        }
+        System.out.println(index++ + ") Retour");
+        choix = input.nextLine();
+        return choix;
+    }
+
+    /**
+     * Cette fonction affiche la liste des livres sans possibilité de sélectionner une option.
+     * Elle affiche simplement la liste des livres avec leurs numéros et leurs informations.
+     *
+     * @param list La liste des livres à afficher.
+     */
+    static void information(ArrayList<Livres> list){
+        int index = 0;
+        for (Livres livres : list) {
+            index ++;
+            System.out.print(index + ") ");
+            System.out.println(livres.toString());
+        }
+    }
 }

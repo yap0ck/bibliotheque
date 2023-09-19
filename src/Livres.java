@@ -56,6 +56,12 @@ public class Livres {
                 '}';
     }
 
+    /**
+     * Cette fonction permet à l'utilisateur d'ajouter un nouveau livre à une liste de livres.
+     *
+     * @param listLivre La liste de livres à laquelle ajouter un nouveau livre.
+     * @return La liste de livres mise à jour après l'ajout du nouveau livre.
+     */
     public static ArrayList ajout(ArrayList<Livres> listLivre){
         Scanner input = new Scanner(System.in);
         String titre, auteur, isbn;

@@ -22,7 +22,7 @@ public class Main {
                 correct = true;
                 switch (Affichable.menuAdmin()){
                     case "1" -> listLivres = Livres.ajout(listLivres);
-                    //case "2" -> information();
+                    case "2" -> Affichable.information(listLivres);
                     //case "3" -> suppression();
                     //case "4" -> modification();
                     //case "5" -> emprunt();
@@ -37,7 +37,7 @@ public class Main {
             do {
                 correct = true;
                 switch (Affichable.menuClient()){
-                    //case "1" -> information();
+                    case "1" -> Affichable.information(listLivres);
                     //case "2" -> emprunt();
                     //case "3" -> retour();
                     //case "4" -> affichageLivre();
