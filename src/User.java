@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class User {
     private String nom, prenom, login, motdepasse, role = "client";
 
@@ -47,4 +49,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }
