@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -176,5 +177,27 @@ public class Livres {
         listLivre.get(choix).setDisponible(false);
         listLivre.get(choix).setDateEmprunt(LocalDate.now());
         return listLivre;
+    }
+
+    /**
+     * Cette fonction permet à l'utilisateur de retourner un livre emprunté en saisissant le titre du livre.
+     *
+     * @param list La liste des livres à partir de laquelle effectuer le retour.
+     * @return La liste des livres mise à jour après le retour.
+     */
+    public static ArrayList retour(ArrayList<Livres> list){
+        Scanner input = new Scanner(System.in);
+        String entree;
+        System.out.println("Veuillez entrer le titre du livre que vous voulez rendre");
+        entree = input.nextLine();
+        for (Livres livres : list) {
+            if (livres.getTitre().equals(entree)) {
+                long joursemprunt = ChronoUnit.DAYS.between(livres.getDateEmprunt(), LocalDate.now());
+                System.out.println("vous avez emprunter ce livres durant "+ joursemprunt + " jours");
+                livres.setDisponible(true);
+                livres.setDateEmprunt(null);
+            }
+        }
+        return list;
     }
 }

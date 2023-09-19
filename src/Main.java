@@ -22,12 +22,12 @@ public class Main {
                 correct = true;
                 switch (Affichable.menuAdmin()){
                     case "1" -> listLivres = Livres.ajout(listLivres);
-                    case "2" -> Affichable.information(listLivres);
+                    case "2" -> Affichable.recherche(listLivres);
                     case "3" -> listLivres = Livres.suppression(listLivres);
                     case "4" -> listLivres = Livres.modification(listLivres);
                     case "5" -> listLivres = Livres.emprunt(listLivres);
-                    //case "6" -> retour();
-                    //case "7" -> affichageLivre();
+                    case "6" -> listLivres = Livres.retour(listLivres);
+                    case "7" -> Affichable.affichageLivre(listLivres);
                     case "8" -> sortir = true;
                     default -> correct = false;
                 }
@@ -37,10 +37,10 @@ public class Main {
             do {
                 correct = true;
                 switch (Affichable.menuClient()){
-                    case "1" -> Affichable.information(listLivres);
+                    case "1" -> Affichable.recherche(listLivres);
                     case "2" -> listLivres = Livres.emprunt(listLivres);
-                    //case "3" -> retour();
-                    //case "4" -> affichageLivre();
+                    case "3" -> listLivres = Livres.retour(listLivres);
+                    case "4" -> Affichable.affichageLivre(listLivres);
                     case "5" -> sortir = true;
                     default -> correct = false;
                 }

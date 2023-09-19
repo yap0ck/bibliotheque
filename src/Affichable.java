@@ -99,17 +99,34 @@ public interface Affichable {
     }
 
     /**
-     * Cette fonction affiche la liste des livres sans possibilité de sélectionner une option.
-     * Elle affiche simplement la liste des livres avec leurs numéros et leurs informations.
+     * Cette fonction affiche la liste des livres disponibles.
      *
      * @param list La liste des livres à afficher.
      */
-    static void information(ArrayList<Livres> list){
+    static void affichageLivre(ArrayList<Livres> list){
         int index = 0;
         for (Livres livres : list) {
-            index ++;
-            System.out.print(index + ") ");
-            System.out.println(livres.toString());
+            if (livres.isDisponible()) {
+                index++;
+                System.out.print(index + ") ");
+                System.out.println(livres.toString());
+            }
+        }
+    }
+
+    /**
+     * Cette fonction permet à l'utilisateur de rechercher un livre par son titre dans la liste des livres
+     * et affiche les informations du livre s'il est trouvé.
+     *
+     * @param list La liste des livres dans laquelle effectuer la recherche.
+     */
+    static void recherche(ArrayList<Livres> list){
+        Scanner input = new Scanner(System.in);
+        String entree;
+        System.out.println("Veuillez entrer le titre du livre que vous recherchez");
+        entree = input.nextLine();
+        for (Livres livres : list) {
+            if (livres.getTitre().equals(entree)) System.out.println(livres.toString());
         }
     }
 }
