@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,6 +7,8 @@ public class Livres {
     private String auteur;
     private int anneePublication;
     private String isbn;
+    private boolean disponible = true;
+    private LocalDate dateEmprunt = null;
 
     public Livres(String titre, String auteur, int anneePublication, String isbn) {
         this.titre = titre;
@@ -46,6 +49,22 @@ public class Livres {
         this.isbn = isbn;
     }
 
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public LocalDate getDateEmprunt() {
+        return dateEmprunt;
+    }
+
+    public void setDateEmprunt(LocalDate dateEmprunt) {
+        this.dateEmprunt = dateEmprunt;
+    }
+
     @Override
     public String toString() {
         return "Livres{" +
@@ -53,6 +72,8 @@ public class Livres {
                 ", auteur='" + auteur + '\'' +
                 ", anneePublication=" + anneePublication +
                 ", isbn='" + isbn + '\'' +
+                ", disponible=" + disponible +
+                ", dateEmprunt=" + dateEmprunt +
                 '}';
     }
 
@@ -105,7 +126,7 @@ public class Livres {
         int entreeAnnee;
         boolean encore = false;
         Livres livre;
-        System.out.println("Quelle livre souhaitez vous modifier");
+        System.out.println("Quel livre souhaitez vous modifier");
         choixLivre = Integer.parseInt(Affichable.affichageLivres(listLivre))-1;
         do {
             System.out.println("Quelle information souhaitez vous modifier?");
@@ -115,34 +136,22 @@ public class Livres {
                 case "1" -> {
                     System.out.println("Veuillez entrer le nouveau titre");
                     entree = input.nextLine();
-                    livre = listLivre.get(choixLivre);
-                    livre.setTitre(entree);
-                    listLivre.remove(choixLivre);
-                    listLivre.add(livre);
+                    listLivre.get(choixLivre).setTitre(entree);
                 }
                 case "2" -> {
                     System.out.println("Veuillez entrer le nouvel auteur");
                     entree = input.nextLine();
-                    livre = listLivre.get(choixLivre);
-                    livre.setAuteur(entree);
-                    listLivre.remove(choixLivre);
-                    listLivre.add(livre);
+                    listLivre.get(choixLivre).setAuteur(entree);
                 }
                 case "3" -> {
                     System.out.println("Veuillez entrer la nouvelle année de parution");
                     entreeAnnee = Integer.parseInt(input.nextLine());
-                    livre = listLivre.get(choixLivre);
-                    livre.setAnneePublication(entreeAnnee);
-                    listLivre.remove(choixLivre);
-                    listLivre.add(livre);
+                    listLivre.get(choixLivre).setAnneePublication(entreeAnnee);
                 }
                 case "4" -> {
                     System.out.println("Veuillez entrer le nouvel ISBN");
                     entree = input.nextLine();
-                    livre = listLivre.get(choixLivre);
-                    livre.setIsbn(entree);
-                    listLivre.remove(choixLivre);
-                    listLivre.add(livre);
+                    listLivre.get(choixLivre).setIsbn(entree);
                 }
                 default -> throw new YannException();
             }
@@ -151,6 +160,21 @@ public class Livres {
             if (entree.equals("o")) encore = true;
             else encore = false;
         } while (encore);
+        return listLivre;
+    }
+
+    /**
+     * Cette fonction permet à l'utilisateur d'emprunter un livre de la liste des livres.
+     *
+     * @param listLivre La liste des livres à partir de laquelle effectuer l'emprunt.
+     * @return La liste des livres mise à jour après l'emprunt.
+     */
+    public static ArrayList emprunt(ArrayList<Livres> listLivre){
+        int choix;
+        System.out.println("Quel livre souhaitez vous emprunter?");
+        choix = Integer.parseInt(Affichable.affichageLivres(listLivre))-1;
+        listLivre.get(choix).setDisponible(false);
+        listLivre.get(choix).setDateEmprunt(LocalDate.now());
         return listLivre;
     }
 }

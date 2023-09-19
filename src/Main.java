@@ -24,8 +24,8 @@ public class Main {
                     case "1" -> listLivres = Livres.ajout(listLivres);
                     case "2" -> Affichable.information(listLivres);
                     case "3" -> listLivres = Livres.suppression(listLivres);
-                    case "4" -> listLivres= Livres.modification(listLivres);
-                    //case "5" -> emprunt();
+                    case "4" -> listLivres = Livres.modification(listLivres);
+                    case "5" -> listLivres = Livres.emprunt(listLivres);
                     //case "6" -> retour();
                     //case "7" -> affichageLivre();
                     case "8" -> sortir = true;
@@ -38,7 +38,7 @@ public class Main {
                 correct = true;
                 switch (Affichable.menuClient()){
                     case "1" -> Affichable.information(listLivres);
-                    //case "2" -> emprunt();
+                    case "2" -> listLivres = Livres.emprunt(listLivres);
                     //case "3" -> retour();
                     //case "4" -> affichageLivre();
                     case "5" -> sortir = true;
