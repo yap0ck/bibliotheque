@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,7 +7,7 @@ public interface Requete {
     static boolean insertBook(String name, String author, int publishingYear, String isbn){
         try (
                 Connection connection = ConnectionFactory.createConnection();
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO ? (name,author,publishingyear,isbn) VALUES (?, ?, ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO book (name,author,publishingyear,isbn) VALUES (?, ?, ?, ?)");
                 ){
             statement.setString(1,name);
             statement.setString(2,author);
@@ -19,10 +20,10 @@ public interface Requete {
     }
 
     static User loginUser(String login, String password){
-        User user = null;
+        User user = new User();
         try (
                 Connection connection = ConnectionFactory.createConnection();
-                PreparedStatement statement = connection.prepareStatement("SELECT login, password, userrole FROM user_ WHERE login LIKE ?");
+                PreparedStatement statement = connection.prepareStatement("SELECT login, password, userrole, userid FROM user_ WHERE login LIKE ?");
                 ){
             statement.setString(1, login);
             ResultSet rs = statement.executeQuery();
@@ -52,20 +53,25 @@ public interface Requete {
         try (
                 Connection connection = ConnectionFactory.createConnection();
                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM book WHERE isbn LIKE ? ");
-                ResultSet rs = statement.executeQuery()
+
         ){
             statement.setString(1,entree);
-            if (rs == null){
-                System.out.println("Livre non trouvé");
-                livre = null;
-            } else {
-                while (rs.next()){
-                    livre.setTitre(rs.getString("name"));
-                    livre.setAuteur(rs.getString("author"));
-                    livre.setAnneePublication(rs.getInt("publishingYear"));
-                    livre.setIsbn(rs.getString("isbn"));
+            ResultSet rs = statement.executeQuery();
+            try{
+                if (rs == null){
+                    System.out.println("Livre non trouvé");
+                    livre = null;
+                } else {
+                    while (rs.next()){
+                        livre.setTitre(rs.getString("name"));
+                        livre.setAuteur(rs.getString("author"));
+                        livre.setAnneePublication(rs.getInt("publishingYear"));
+                        livre.setIsbn(rs.getString("isbn"));
+                    }
                 }
-
+                rs.close();
+            } finally {
+                rs.close();
             }
         } catch (SQLException e) {
             throw new RuntimeException("CHEH", e);
@@ -114,7 +120,7 @@ public interface Requete {
                 ){
             statement.setInt(1,emprunt.getLivre().getLivreId());
             statement.setInt(2,emprunt.getUser().getUserId());
-            statement.setDate(3, (Date) emprunt.getDateEmprunt());
+            statement.setDate(3, Date.valueOf(emprunt.getDateEmprunt()));
             return statement.execute();
         } catch (SQLException e){
             throw new RuntimeException("Cheh", e);
@@ -125,24 +131,24 @@ public interface Requete {
         ArrayList<Livres> list = new ArrayList<>();
         try (
                 Connection connection = ConnectionFactory.createConnection();
-                PreparedStatement statement = connection.prepareStatement("SELECT b.name, b.author, b.bookid, bo.borrowdate FROM user_ u JOIN public.borrow bo on u.userid = bo.userid JOIN public.book b on b.bookid = bo.bookid WHERE u.userid LIKE ?");
+                PreparedStatement statement = connection.prepareStatement("SELECT b.name, b.author, b.bookid, bo.borrowdate FROM user_ u JOIN public.borrow bo on u.userid = bo.userid JOIN public.book b on b.bookid = bo.bookid WHERE u.userid = ?");
                 ){
-            statement.setInt(1,user.getUserId());
+            statement.setInt(1, user.getUserId());
             ResultSet rs = statement.executeQuery();
             try {
+
                 while (rs.next()){
                     Livres livres = new Livres();
                     Emprunt emprunt = new Emprunt();
-                    emprunt.setDateEmprunt(rs.getDate("borrowdate"));
+                    emprunt.setDateEmprunt(rs.getDate("borrowdate").toLocalDate());
                     livres.setEmprunt(emprunt);
                     livres.setTitre(rs.getString("name"));
                     livres.setAuteur(rs.getString("author"));
                     livres.setLivreId(rs.getInt("bookid"));
                     list.add(livres);
-                    rs.close();
                 }
             } finally {
-                rs.close();
+                if (rs != null) rs.close();
             }
             return list;
         } catch (SQLException e){
@@ -150,12 +156,12 @@ public interface Requete {
         }
     }
 
-    static boolean modifEmprunt(java.util.Date date, Livres livres){
+    static boolean modifEmprunt(LocalDate date, Livres livres){
         try (
                 Connection connection = ConnectionFactory.createConnection();
-                PreparedStatement statement = connection.prepareStatement("UPDATE borrow SET returndate = ? WHERE bookid LIKE ?")
+                PreparedStatement statement = connection.prepareStatement("UPDATE borrow SET returndate = ? WHERE bookid = ?")
                 ){
-        statement.setDate(1, (Date) date);
+        statement.setDate(1, Date.valueOf(date));
         statement.setInt(2,livres.getLivreId());
         return statement.execute();
         } catch (SQLException e){
@@ -167,7 +173,7 @@ public interface Requete {
         ArrayList<Livres> list = new ArrayList<>();
         try (
                 Connection connection = ConnectionFactory.createConnection();
-                PreparedStatement statement = connection.prepareStatement("SELECT b.author, b.name FROM book b WHERE bookid LIKE (SELECT bookid FROM borrow WHERE borrowdate IS NULL OR returndate IS NOT NULL )");
+                PreparedStatement statement = connection.prepareStatement("SELECT b.author, b.name FROM book b WHERE bookid IN (SELECT bookid FROM borrow WHERE borrowdate IS NULL OR returndate IS NOT NULL )");
                 ResultSet rs = statement.executeQuery()
                 ){
             while (rs.next()){
@@ -180,5 +186,26 @@ public interface Requete {
             throw new RuntimeException("CHEH", e);
         }
         return list;
+    }
+
+    static boolean modifLivre(String index, String entree, Livres livres){
+        String query;
+        switch (index){
+            case "1" -> query = "UPDATE book SET name = ? WHERE bookid = ?";
+            case "2" -> query = "UPDATE book SET author = ? WHERE bookid = ?";
+            case "3" -> query = "UPDATE book SET publishingYear = ? WHERE bookid = ?";
+            case "4" -> query = "UPDATE book SET isbn = ? WHERE bookid = ?";
+            default -> throw new RuntimeException("Cheh");
+        }
+        try(
+                Connection connection = ConnectionFactory.createConnection();
+                PreparedStatement statement = connection.prepareStatement(query)
+        ){
+            statement.setString(1, entree);
+            statement.setInt(2, livres.getLivreId());
+            return statement.execute();
+        } catch (SQLException e){
+            throw new RuntimeException("Cheh", e);
+        }
     }
 }

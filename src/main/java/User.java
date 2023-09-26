@@ -3,7 +3,7 @@ import lombok.Data;
 import java.util.Scanner;
 @Data
 public class User {
-    private String nom, prenom, login, motdepasse, role = "client";
+    private String nom, prenom, login, motdepasse, role;
     private int userId;
 
     public User(String nom, String prenom, String login, String motdepasse) {
@@ -13,4 +13,6 @@ public class User {
         this.motdepasse = motdepasse;
     }
 
+    public User() {
+    }
 }

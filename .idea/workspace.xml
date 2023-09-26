@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd512617-058c-47cf-a6c0-0bcb45ea5adc" name="Changes" comment="recherhe 1 livre ()">
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Emprunt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="bd512617-058c-47cf-a6c0-0bcb45ea5adc" name="Changes" comment="jesaispas">
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Affichable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Affichable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ConnectionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ConnectionFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Emprunt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Emprunt.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Livres.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Livres.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Requete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Requete.java" afterDir="false" />
@@ -101,7 +100,7 @@
       <workItem from="1695648103396" duration="13000" />
       <workItem from="1695648203483" duration="3369000" />
       <workItem from="1695710301228" duration="8016000" />
-      <workItem from="1695718825010" duration="6333000" />
+      <workItem from="1695718825010" duration="15147000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -199,7 +198,15 @@
       <option name="project" value="LOCAL" />
       <updated>1695712160241</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="jesaispas">
+      <option name="closed" value="true" />
+      <created>1695727774108</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1695727774108</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,14 +225,15 @@
     <MESSAGE value="fini" />
     <MESSAGE value="login et ajout W SQL" />
     <MESSAGE value="recherhe 1 livre ()" />
-    <option name="LAST_COMMIT_MESSAGE" value="recherhe 1 livre ()" />
+    <MESSAGE value="jesaispas" />
+    <option name="LAST_COMMIT_MESSAGE" value="jesaispas" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Requete.java</url>
-          <line>23</line>
+          <line>24</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

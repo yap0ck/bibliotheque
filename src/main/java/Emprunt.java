@@ -3,6 +3,7 @@ import lombok.Data;
 
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,11 +11,11 @@ import java.util.Date;
 public class Emprunt {
     private int empruntId;
     private Livres livre;
-    private Date dateEmprunt;
-    private Date dateRetour;
+    private LocalDate dateEmprunt;
+    private LocalDate dateRetour;
     private User user;
 
-    public Emprunt(int empruntId, Livres livre, Date dateEmprunt, Date dateRetour, User user) {
+    public Emprunt(int empruntId, Livres livre, LocalDate dateEmprunt, LocalDate dateRetour, User user) {
         this.empruntId = empruntId;
         this.livre = livre;
         this.dateEmprunt = dateEmprunt;
@@ -33,7 +34,7 @@ public class Emprunt {
         choixLivre = Integer.parseInt(Affichable.affichageLivres())-1;
         livre = list.get(choixLivre);
         Emprunt emprunt = Emprunt.builder()
-                                .dateEmprunt(Date.from(Instant.now()))
+                                .dateEmprunt(LocalDate.now())
                                 .livre(livre)
                                 .user(user)
                                 .build();
@@ -46,7 +47,7 @@ public class Emprunt {
         System.out.println("quel livre souhaitez vous retourner?");
         choixLivre = Integer.parseInt(Affichable.affichageLivreEmprunte(user))-1;
         livre = list.get(choixLivre);
-        Date dateRetour = Date.from(Instant.now());
+        LocalDate dateRetour = LocalDate.now();
         Requete.modifEmprunt(dateRetour, livre);
     }
 }

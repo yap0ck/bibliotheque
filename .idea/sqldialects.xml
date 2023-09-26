@@ -3,6 +3,7 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/BibliothequeDDL.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/BibliothequeDML.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/Main.java" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/Requete.java" dialect="PostgreSQL" />
   </component>
 </project>

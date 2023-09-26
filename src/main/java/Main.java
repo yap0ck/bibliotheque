@@ -1,3 +1,5 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -7,7 +9,7 @@ public class Main {
         Boolean sortir= false, correct;
         User user = Affichable.login();
         //core
-        if (user.getRole().equals("admin")) {
+        if (user.getRole().equals("Administrator")) {
             do {
                 correct = true;
                 switch (Affichable.menuAdmin()){

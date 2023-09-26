@@ -27,10 +27,12 @@ public interface Affichable {
             if (user == null){
                 System.out.println("identifiants incorrect");
                 authCorrect = false;
-            } else if (user.getRole().equals("admin")) {
+            } else if (user.getRole().equals("Administrator")) {
                 System.out.println("chargement menu admin");
+                authCorrect = true;
             } else {
                 System.out.println("chargement menu utilisateur");
+                authCorrect=true;
             }
         } while (!authCorrect);
         return user;
@@ -92,7 +94,8 @@ public interface Affichable {
             System.out.print(index + ") ");
             System.out.println(livres.toString());
         }
-        System.out.println(index++ + ") Retour");
+        index++;
+        System.out.println( index + ") Retour");
         choix = input.nextLine();
         return choix;
     }

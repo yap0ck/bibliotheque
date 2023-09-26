@@ -71,7 +71,7 @@ public class Livres {
      * @return La liste des livres mise à jour après la suppression.
      */
     public static ArrayList suppression(){
-        ArrayList<Livres> listLivre = new ArrayList<>();
+        ArrayList<Livres> listLivre = Requete.listingLivres();
         int choix;
         System.out.println("Quelle livre souhaitez vous supprimer?");
         choix = Integer.parseInt(Affichable.affichageLivres())-1;
@@ -91,14 +91,13 @@ public class Livres {
         ArrayList<Livres> listLivre = Requete.listingLivres();
         int choixLivre;
         Scanner input = new Scanner(System.in);
-        String choix, entree;
+        String choix, entree = "";
         int entreeAnnee;
         boolean encore = false;
         Livres livre;
         System.out.println("Quel livre souhaitez vous modifier");
         choixLivre = Integer.parseInt(Affichable.affichageLivres())-1;
         livre = listLivre.get(choixLivre);
-        Requete.suppressionLivresDB(livre);
         do {
             System.out.println("Quelle information souhaitez vous modifier?");
             System.out.println("1) Titre\n2) Auteur\n3) Annee de publication\n4) ISBN");
@@ -126,12 +125,12 @@ public class Livres {
                 }
                 default -> throw new YannException();
             }
+            Requete.modifLivre(choix, entree, livre);
             System.out.println("Souhaitez vous faire une autre modification sur ce livre? (o)ui/(n)on)");
             entree = input.nextLine();
             if (entree.equals("o")) encore = true;
             else encore = false;
         } while (encore);
-        Requete.insertBook(livre.getTitre(), livre.getAuteur(), livre.getAnneePublication(), livre.getIsbn());
         return listLivre;
     }
 
@@ -139,7 +138,7 @@ public class Livres {
         Livres livre = new Livres();
         Scanner input = new Scanner(System.in);
         String entree;
-        System.out.println("Veuillez entrer le titre du livre que vous recherchez");
+        System.out.println("Veuillez entrer l'ISBN' du livre que vous recherchez");
         entree = input.nextLine();
         livre = Requete.rechercheLivreDB(entree);
         System.out.println(livre);
