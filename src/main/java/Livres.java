@@ -16,17 +16,31 @@ public class Livres {
     private String auteur;
     private int anneePublication;
     private String isbn;
-    private boolean disponible = true;
-    private LocalDate dateEmprunt = null;
+    private int livreId;
+    private Emprunt emprunt;
+
+    public Livres(String titre, String auteur, int anneePublication, String isbn, int livreId, Emprunt emprunt) {
+        this.titre = titre;
+        this.auteur = auteur;
+        this.anneePublication = anneePublication;
+        this.isbn = isbn;
+        this.livreId = livreId;
+        this.emprunt = emprunt;
+    }
+
+    public Livres(String titre, String auteur) {
+        this.titre = titre;
+        this.auteur = auteur;
+    }
+
+    public Livres() {
+    }
 
     public Livres(String titre, String auteur, int anneePublication, String isbn) {
         this.titre = titre;
         this.auteur = auteur;
         this.anneePublication = anneePublication;
         this.isbn = isbn;
-    }
-
-    public Livres() {
     }
 
     /**
@@ -56,10 +70,13 @@ public class Livres {
      * @param listLivre La liste des livres à partir de laquelle supprimer un livre.
      * @return La liste des livres mise à jour après la suppression.
      */
-    public static ArrayList suppression(ArrayList<Livres> listLivre){
+    public static ArrayList suppression(){
+        ArrayList<Livres> listLivre = new ArrayList<>();
         int choix;
         System.out.println("Quelle livre souhaitez vous supprimer?");
-        choix = Integer.parseInt(Affichable.affichageLivres(listLivre))-1;
+        choix = Integer.parseInt(Affichable.affichageLivres())-1;
+        Livres livres = listLivre.get(choix);
+        Requete.suppressionLivresDB(livres);
         listLivre.remove(choix);
         return listLivre;
     }
@@ -70,7 +87,8 @@ public class Livres {
      * @param listLivre La liste des livres à partir de laquelle effectuer les modifications.
      * @return La liste des livres mise à jour après les modifications.
      */
-    public static ArrayList modification(ArrayList<Livres> listLivre){
+    public static ArrayList modification(){
+        ArrayList<Livres> listLivre = Requete.listingLivres();
         int choixLivre;
         Scanner input = new Scanner(System.in);
         String choix, entree;
@@ -78,7 +96,9 @@ public class Livres {
         boolean encore = false;
         Livres livre;
         System.out.println("Quel livre souhaitez vous modifier");
-        choixLivre = Integer.parseInt(Affichable.affichageLivres(listLivre))-1;
+        choixLivre = Integer.parseInt(Affichable.affichageLivres())-1;
+        livre = listLivre.get(choixLivre);
+        Requete.suppressionLivresDB(livre);
         do {
             System.out.println("Quelle information souhaitez vous modifier?");
             System.out.println("1) Titre\n2) Auteur\n3) Annee de publication\n4) ISBN");
@@ -87,22 +107,22 @@ public class Livres {
                 case "1" -> {
                     System.out.println("Veuillez entrer le nouveau titre");
                     entree = input.nextLine();
-                    listLivre.get(choixLivre).setTitre(entree);
+                    livre.setTitre(entree);
                 }
                 case "2" -> {
                     System.out.println("Veuillez entrer le nouvel auteur");
                     entree = input.nextLine();
-                    listLivre.get(choixLivre).setAuteur(entree);
+                    livre.setAuteur(entree);
                 }
                 case "3" -> {
                     System.out.println("Veuillez entrer la nouvelle année de parution");
                     entreeAnnee = Integer.parseInt(input.nextLine());
-                    listLivre.get(choixLivre).setAnneePublication(entreeAnnee);
+                    livre.setAnneePublication(entreeAnnee);
                 }
                 case "4" -> {
                     System.out.println("Veuillez entrer le nouvel ISBN");
                     entree = input.nextLine();
-                    listLivre.get(choixLivre).setIsbn(entree);
+                    livre.setIsbn(entree);
                 }
                 default -> throw new YannException();
             }
@@ -111,44 +131,8 @@ public class Livres {
             if (entree.equals("o")) encore = true;
             else encore = false;
         } while (encore);
+        Requete.insertBook(livre.getTitre(), livre.getAuteur(), livre.getAnneePublication(), livre.getIsbn());
         return listLivre;
-    }
-
-    /**
-     * Cette fonction permet à l'utilisateur d'emprunter un livre de la liste des livres.
-     *
-     * @param listLivre La liste des livres à partir de laquelle effectuer l'emprunt.
-     * @return La liste des livres mise à jour après l'emprunt.
-     */
-    public static ArrayList emprunt(ArrayList<Livres> listLivre){
-        int choix;
-        System.out.println("Quel livre souhaitez vous emprunter?");
-        choix = Integer.parseInt(Affichable.affichageLivres(listLivre))-1;
-        listLivre.get(choix).setDisponible(false);
-        listLivre.get(choix).setDateEmprunt(LocalDate.now());
-        return listLivre;
-    }
-
-    /**
-     * Cette fonction permet à l'utilisateur de retourner un livre emprunté en saisissant le titre du livre.
-     *
-     * @param list La liste des livres à partir de laquelle effectuer le retour.
-     * @return La liste des livres mise à jour après le retour.
-     */
-    public static ArrayList retour(ArrayList<Livres> list){
-        Scanner input = new Scanner(System.in);
-        String entree;
-        System.out.println("Veuillez entrer le titre du livre que vous voulez rendre");
-        entree = input.nextLine();
-        for (Livres livres : list) {
-            if (livres.getTitre().equals(entree)) {
-                long joursemprunt = ChronoUnit.DAYS.between(livres.getDateEmprunt(), LocalDate.now());
-                System.out.println("vous avez emprunter ce livres durant "+ joursemprunt + " jours");
-                livres.setDisponible(true);
-                livres.setDateEmprunt(null);
-            }
-        }
-        return list;
     }
 
     static void recherche(){

@@ -4,6 +4,7 @@ import java.util.Scanner;
 @Data
 public class User {
     private String nom, prenom, login, motdepasse, role = "client";
+    private int userId;
 
     public User(String nom, String prenom, String login, String motdepasse) {
         this.nom = nom;
@@ -12,7 +13,4 @@ public class User {
         this.motdepasse = motdepasse;
     }
 
-    public User() {
-
-    }
 }

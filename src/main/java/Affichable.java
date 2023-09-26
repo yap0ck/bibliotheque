@@ -11,30 +11,29 @@ public interface Affichable {
      * @param listUser La liste des utilisateurs enregistrés.
      * @return true si l'utilisateur est un administrateur, sinon false.
      */
-    static Boolean login(){
+    static User login(){
         Scanner input = new Scanner(System.in);
         String loginEntree, mdpEntree;
         System.out.println("Bonjour");
         boolean authCorrect = false;
         boolean isAdmin = false;
+        User user;
         do {
             System.out.println("Veuillez entrer votre nom d'utilisateur");
             loginEntree = input.nextLine();
             System.out.println("Veuillez entrer votre mot de passe");
             mdpEntree = input.nextLine();
-            User user = Requete.loginUser(loginEntree,mdpEntree);
+            user = Requete.loginUser(loginEntree,mdpEntree);
             if (user == null){
                 System.out.println("identifiants incorrect");
                 authCorrect = false;
             } else if (user.getRole().equals("admin")) {
                 System.out.println("chargement menu admin");
-                return isAdmin = true;
             } else {
                 System.out.println("chargement menu utilisateur");
-                return isAdmin = false;
             }
         } while (!authCorrect);
-        return isAdmin;
+        return user;
     }
 
     /**
@@ -83,7 +82,8 @@ public interface Affichable {
      * @param list La liste des livres à afficher.
      * @return Le choix de l'utilisateur sous forme de chaîne de caractères.
      */
-    static String affichageLivres(ArrayList<Livres> list){
+    static String affichageLivres(){
+        ArrayList<Livres> list = Requete.listingLivres();
         int index = 0;
         String choix;
         Scanner input = new Scanner(System.in);
@@ -102,17 +102,29 @@ public interface Affichable {
      *
      * @param list La liste des livres à afficher.
      */
-    static void affichageLivre(ArrayList<Livres> list){
+    static void affichageLivreDispo(){
+        ArrayList<Livres> list = Requete.listingLivresDispo();
         int index = 0;
         for (Livres livres : list) {
-            if (livres.isDisponible()) {
-                index++;
-                System.out.print(index + ") ");
-                System.out.println(livres.toString());
-            }
+            index++;
+            System.out.print(index + ") ");
+            System.out.println(livres);
         }
     }
 
-
+    static String affichageLivreEmprunte(User user){
+        ArrayList<Livres> list = Requete.listingLivresEmprunte(user);
+        int index = 0;
+        String choix;
+        Scanner input = new Scanner(System.in);
+        for (Livres livres : list) {
+            index ++;
+            System.out.print(index + ") ");
+            System.out.println(livres.toString());
+        }
+        System.out.println(index++ + ") Retour");
+        choix = input.nextLine();
+        return choix;
+    }
 
 }

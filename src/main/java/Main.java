@@ -5,18 +5,19 @@ public class Main {
     public static void main(String[] args){
         // variable
         Boolean sortir= false, correct;
+        User user = Affichable.login();
         //core
-        if (Affichable.login()) {
+        if (user.getRole().equals("admin")) {
             do {
                 correct = true;
                 switch (Affichable.menuAdmin()){
                     case "1" -> Livres.ajout();
                     case "2" -> Livres.recherche();
-                    case "3" -> listLivres = Livres.suppression(listLivres);
-                    case "4" -> listLivres = Livres.modification(listLivres);
-                    case "5" -> listLivres = Livres.emprunt(listLivres);
-                    case "6" -> listLivres = Livres.retour(listLivres);
-                    case "7" -> Affichable.affichageLivre(listLivres);
+                    case "3" -> Livres.suppression();
+                    case "4" -> Livres.modification();
+                    case "5" -> Emprunt.emprunt(user);
+                    case "6" -> Emprunt.retour(user);
+                    case "7" -> Affichable.affichageLivreDispo();
                     case "8" -> sortir = true;
                     default -> correct = false;
                 }
@@ -27,9 +28,9 @@ public class Main {
                 correct = true;
                 switch (Affichable.menuClient()){
                     case "1" -> Livres.recherche();
-                    case "2" -> listLivres = Livres.emprunt(listLivres);
-                    case "3" -> listLivres = Livres.retour(listLivres);
-                    case "4" -> Affichable.affichageLivre(listLivres);
+                    case "2" -> Emprunt.emprunt(user);
+                    case "3" -> Emprunt.retour(user);
+                    case "4" -> Affichable.affichageLivreDispo();
                     case "5" -> sortir = true;
                     default -> correct = false;
                 }
