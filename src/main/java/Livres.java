@@ -1,8 +1,12 @@
+import lombok.Builder;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+@Data @Builder
 public class Livres {
     private String titre;
     private String auteur;
@@ -18,73 +22,13 @@ public class Livres {
         this.isbn = isbn;
     }
 
-    public String getTitre() {
-        return titre;
-    }
-
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public String getAuteur() {
-        return auteur;
-    }
-
-    public void setAuteur(String auteur) {
-        this.auteur = auteur;
-    }
-
-    public int getAnneePublication() {
-        return anneePublication;
-    }
-
-    public void setAnneePublication(int anneePublication) {
-        this.anneePublication = anneePublication;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public boolean isDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
-
-    public LocalDate getDateEmprunt() {
-        return dateEmprunt;
-    }
-
-    public void setDateEmprunt(LocalDate dateEmprunt) {
-        this.dateEmprunt = dateEmprunt;
-    }
-
-    @Override
-    public String toString() {
-        return "Livres{" +
-                "titre='" + titre + '\'' +
-                ", auteur='" + auteur + '\'' +
-                ", anneePublication=" + anneePublication +
-                ", isbn='" + isbn + '\'' +
-                ", disponible=" + disponible +
-                ", dateEmprunt=" + dateEmprunt +
-                '}';
-    }
-
     /**
      * Cette fonction permet à l'utilisateur d'ajouter un nouveau livre à une liste de livres.
      *
      * @param listLivre La liste de livres à laquelle ajouter un nouveau livre.
      * @return La liste de livres mise à jour après l'ajout du nouveau livre.
      */
-    public static ArrayList ajout(ArrayList<Livres> listLivre){
+    public static void ajout(){
         Scanner input = new Scanner(System.in);
         String titre, auteur, isbn;
         int anneePublication;
@@ -96,8 +40,7 @@ public class Livres {
         anneePublication = Integer.parseInt(input.nextLine());
         System.out.println("veuillez entrer l'ISBN");
         isbn = input.nextLine();
-        listLivre.add(new Livres(titre,auteur,anneePublication,isbn));
-        return listLivre;
+        Requete.insertBook(titre,auteur,anneePublication,isbn);
     }
 
     /**
@@ -199,5 +142,13 @@ public class Livres {
             }
         }
         return list;
+    }
+
+    static void recherche(){
+        Scanner input = new Scanner(System.in);
+        String entree;
+        System.out.println("Veuillez entrer le titre du livre que vous recherchez");
+        entree = input.nextLine();
+
     }
 }

@@ -11,7 +11,7 @@ public interface Affichable {
      * @param listUser La liste des utilisateurs enregistrés.
      * @return true si l'utilisateur est un administrateur, sinon false.
      */
-    static Boolean login(ArrayList<User> listUser){
+    static Boolean login(){
         Scanner input = new Scanner(System.in);
         String loginEntree, mdpEntree;
         System.out.println("Bonjour");
@@ -22,18 +22,17 @@ public interface Affichable {
             loginEntree = input.nextLine();
             System.out.println("Veuillez entrer votre mot de passe");
             mdpEntree = input.nextLine();
-            for (User user : listUser) {
-                if (user.getLogin().equals(loginEntree) && user.getMotdepasse().equals(mdpEntree)) {
-                    authCorrect = true;
-                    System.out.println("identification réussie");
-                    if (user.getRole().equals("admin")) {
-                        return isAdmin = true;
-                    } else {
-                        return isAdmin = false;
-                    }
-                }
+            User user = Requete.loginUser(loginEntree,mdpEntree);
+            if (user == null){
+                System.out.println("identifiants incorrect");
+                authCorrect = false;
+            } else if (user.getRole().equals("admin")) {
+                System.out.println("chargement menu admin");
+                return isAdmin = true;
+            } else {
+                System.out.println("chargement menu utilisateur");
+                return isAdmin = false;
             }
-            System.out.println("identifiants incorrect");
         } while (!authCorrect);
         return isAdmin;
     }
@@ -114,19 +113,6 @@ public interface Affichable {
         }
     }
 
-    /**
-     * Cette fonction permet à l'utilisateur de rechercher un livre par son titre dans la liste des livres
-     * et affiche les informations du livre s'il est trouvé.
-     *
-     * @param list La liste des livres dans laquelle effectuer la recherche.
-     */
-    static void recherche(ArrayList<Livres> list){
-        Scanner input = new Scanner(System.in);
-        String entree;
-        System.out.println("Veuillez entrer le titre du livre que vous recherchez");
-        entree = input.nextLine();
-        for (Livres livres : list) {
-            if (livres.getTitre().equals(entree)) System.out.println(livres.toString());
-        }
-    }
+
+
 }
