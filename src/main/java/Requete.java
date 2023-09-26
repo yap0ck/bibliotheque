@@ -40,4 +40,30 @@ public interface Requete {
             throw new RuntimeException("Cheh", e);
         }
     }
+
+    static Livres rechercheLivreDB(String entree){
+        Livres livre = new Livres();
+        try (
+                Connection connection = ConnectionFactory.createConnection();
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM Book WHERE name LIKE ? ");
+                ResultSet rs = statement.executeQuery()
+        ){
+            statement.setString(1,entree);
+            if (rs == null){
+                System.out.println("Livre non trouvé");
+                livre = null;
+            } else {
+                while (rs.next()){
+                    livre.setTitre(rs.getString("name"));
+                    livre.setAuteur(rs.getString("author"));
+                    livre.setAnneePublication(rs.getInt("publishingYear"));
+                    livre.setIsbn(rs.getString("isbn"));
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("CHEH", e);
+        }
+        return livre;
+    }
 }

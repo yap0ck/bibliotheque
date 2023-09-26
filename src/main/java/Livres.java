@@ -1,6 +1,10 @@
 import lombok.Builder;
 import lombok.Data;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -20,6 +24,9 @@ public class Livres {
         this.auteur = auteur;
         this.anneePublication = anneePublication;
         this.isbn = isbn;
+    }
+
+    public Livres() {
     }
 
     /**
@@ -145,10 +152,12 @@ public class Livres {
     }
 
     static void recherche(){
+        Livres livre = new Livres();
         Scanner input = new Scanner(System.in);
         String entree;
         System.out.println("Veuillez entrer le titre du livre que vous recherchez");
         entree = input.nextLine();
-
+        livre = Requete.rechercheLivreDB(entree);
+        System.out.println(livre);
     }
 }

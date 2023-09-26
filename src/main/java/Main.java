@@ -11,7 +11,7 @@ public class Main {
                 correct = true;
                 switch (Affichable.menuAdmin()){
                     case "1" -> Livres.ajout();
-                    case "2" -> Affichable.recherche(listLivres);
+                    case "2" -> Livres.recherche();
                     case "3" -> listLivres = Livres.suppression(listLivres);
                     case "4" -> listLivres = Livres.modification(listLivres);
                     case "5" -> listLivres = Livres.emprunt(listLivres);
@@ -26,7 +26,7 @@ public class Main {
             do {
                 correct = true;
                 switch (Affichable.menuClient()){
-                    case "1" -> Affichable.recherche(listLivres);
+                    case "1" -> Livres.recherche();
                     case "2" -> listLivres = Livres.emprunt(listLivres);
                     case "3" -> listLivres = Livres.retour(listLivres);
                     case "4" -> Affichable.affichageLivre(listLivres);
