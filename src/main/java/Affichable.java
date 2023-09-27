@@ -4,37 +4,41 @@ import java.util.Scanner;
 public interface Affichable {
 
     /**
-     * Cette fonction permet à l'utilisateur de se connecter en demandant un nom d'utilisateur et un mot de passe.
-     * Elle parcourt une liste d'utilisateurs pour vérifier l'authentification.
-     * Si l'authentification réussit, la fonction renvoie true si l'utilisateur est un administrateur, sinon false.
+     * Cette fonction gère le processus de connexion de l'utilisateur.
      *
-     * @param listUser La liste des utilisateurs enregistrés.
-     * @return true si l'utilisateur est un administrateur, sinon false.
+     * @return L'utilisateur connecté.
      */
     static User login(){
         Scanner input = new Scanner(System.in);
         String loginEntree, mdpEntree;
         System.out.println("Bonjour");
-        boolean authCorrect = false;
-        boolean isAdmin = false;
-        User user;
+        boolean authCorrect = false; // Indicateur ppour verifier l'authentification
+        boolean isAdmin = false; // Indicateur pour vérifier si l'utilisateur est un administrateur
+        User user; // stockage de l'utilisateur connecté
         do {
+            //Demande à l'utilisateur de saisir son nom d'utilisateur
             System.out.println("Veuillez entrer votre nom d'utilisateur");
             loginEntree = input.nextLine();
+            // Demande à l'utilisateur de saisir son mot de passe
             System.out.println("Veuillez entrer votre mot de passe");
             mdpEntree = input.nextLine();
+            //Appelle la fonction Requete.loginUser pour vérifier les identifiants
             user = Requete.loginUser(loginEntree,mdpEntree);
             if (user == null){
+                // Si les identifiants sont incorrects, affiche un message d'erreur
                 System.out.println("identifiants incorrect");
                 authCorrect = false;
             } else if (user.getRole().equals("Administrator")) {
+                // Si l'utilisateur est un admin, charge le menu Admin
                 System.out.println("chargement menu admin");
                 authCorrect = true;
             } else {
+                // Sinon charge le menu client
                 System.out.println("chargement menu utilisateur");
                 authCorrect=true;
             }
-        } while (!authCorrect);
+        } while (!authCorrect); // répete tant que l'authentification n'est pas reussie
+        // Renvoie l'utilisateur connecté
         return user;
     }
 
@@ -78,36 +82,36 @@ public interface Affichable {
     }
 
     /**
-     * Cette fonction affiche la liste des livres et permet à l'utilisateur de sélectionner un livre ou de retourner en arrière.
-     * Elle renvoie le choix de l'utilisateur sous forme de chaîne de caractères.
+     * Cette fonction affiche la liste des livres disponibles et permet à l'utilisateur de sélectionner un livre ou de retourner en arrière.
      *
-     * @param list La liste des livres à afficher.
      * @return Le choix de l'utilisateur sous forme de chaîne de caractères.
      */
     static String affichageLivres(){
         ArrayList<Livres> list = Requete.listingLivres();
-        int index = 0;
-        String choix;
+        int index = 0; // variable pour numeroter les livres
+        String choix; // variable pour stocker le choix de l'utilisateur
         Scanner input = new Scanner(System.in);
+        // Parcours de la liste des livres pour les afficher avec des numéros
         for (Livres livres : list) {
             index ++;
             System.out.print(index + ") ");
             System.out.println(livres.toString());
         }
+        //Ajout d'une option de retour en arriére dans le menu
         index++;
         System.out.println( index + ") Retour");
+        // Demande à l'utilisateur de choisir une option
         choix = input.nextLine();
+        // Renvoie le choix de l'utilisateur
         return choix;
     }
 
     /**
      * Cette fonction affiche la liste des livres disponibles.
-     *
-     * @param list La liste des livres à afficher.
      */
     static void affichageLivreDispo(){
-        ArrayList<Livres> list = Requete.listingLivresDispo();
-        int index = 0;
+        ArrayList<Livres> list = Requete.listingLivresDispo(); //Obtient la liste des livres disponible via une requete SQL
+        int index = 0; //Variable pour numeroter les livres
         for (Livres livres : list) {
             index++;
             System.out.print(index + ") ");
@@ -115,6 +119,12 @@ public interface Affichable {
         }
     }
 
+    /**
+     * Cette fonction affiche la liste des livres empruntés par l'utilisateur et permet à l'utilisateur de sélectionner un livre ou de retourner en arrière.
+     *
+     * @param user L'utilisateur dont les livres empruntés doivent être affichés.
+     * @return Le choix de l'utilisateur sous forme de chaîne de caractères.
+     */
     static String affichageLivreEmprunte(User user){
         ArrayList<Livres> list = Requete.listingLivresEmprunte(user);
         int index = 0;
